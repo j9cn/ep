@@ -1,0 +1,9 @@
+{
+  "accessKeyId": ".....",
+  "accessKeySecret": ".....",
+  "endpoint": "oss-cn-shanghai.aliyuncs.com",
+ // "endpoint": "oss.xxx.com", 使用自定义域名绑定访问
+  "isCName": false,
+//  "isCName": true, 当endpoint使用自定义域名访问文件, isCName 必须为 true
+  "bucket": "xxx"
+}
