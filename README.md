@@ -7,7 +7,7 @@ cd ep/init
 php -f initProject.php `make` `PROJECT_NAME.APP_NAME[default: Admin]`
 
 #eg:
-`$ php -f initProject.php make epa`
+`$ php -f initProject.php make epa` (default:ADMIN)
 ```
  ..正在创建[ epa ]项目...
  ..D:\dev\php\epa\---> Ok
@@ -29,5 +29,26 @@ php -f initProject.php `make` `PROJECT_NAME.APP_NAME[default: Admin]`
  ..创建文件 [ D:\dev\php\epa\App\Admin\Templates\default\default.layer.phtml ] ---> Ok
  ..创建文件 [ D:\dev\php\epa\App\Admin\Templates\default\main\ep_info.phtml ] ---> Ok
  ..创建文件 [ D:\dev\php\epa\Config\db.config.php ] ---> Ok
+ ..##############################################
+ ..##               successfully               ##
+ ..##############################################
+ ..
+ ..Directory of Document Root: D:\dev\php\epa\htdocs\admin
+
+```
+`$ php -f initProject.php make epa.web` (APP web)
+```
+..正在创建[ epa.web ]项目...
+..D:\dev\php\epa\---> Ok
+..创建目录[ D:\dev\php\epa\App\Web ] ---> [Ok]
+.........
+..创建APP配置文件 [ Web.init.php ] ---> [Ok]
+.........
+..##############################################
+..##               successfully               ##
+..##############################################
+..
+..Directory of Document Root: D:\dev\php\epa\htdocs\web
+
 ```
 
