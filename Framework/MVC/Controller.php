@@ -10,8 +10,8 @@ declare(strict_types=1);
 namespace EP\MVC;
 
 
+use EP\Core\Develop;
 use EP\Core\FrameBase;
-use EP\Core\Helper;
 
 class Controller extends FrameBase
 {
@@ -77,7 +77,7 @@ class Controller extends FrameBase
                 foreach ($params as $v) {
                     $r_params[] = urlencode($v);
                 }
-                if (Helper::isDevelopment()) {
+                if (Develop::isDev()) {
                     $result_data = [
                         'query_signture' => $signature,
                         'checkd_signture' => $params_signature,
