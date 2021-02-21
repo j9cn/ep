@@ -16,6 +16,8 @@ use EP\Core\FrameBase;
 class Controller extends FrameBase
 {
 
+    protected $smartDisplay = true;
+
     /**
      * 设置data
      * @param string $key
@@ -212,6 +214,9 @@ class Controller extends FrameBase
      */
     protected function display($method = null, $http_response_status = 200)
     {
+        if (null === $method && $this->smartDisplay && $this->request->isAjaxRequest()) {
+            $method = 'JSON';
+        }
         $this->delegate->getResponse()->setStatus($http_response_status);
         $this->view->display($method);
     }
