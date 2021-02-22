@@ -57,6 +57,9 @@ class MySQLConnector extends BaseConnector
         try {
             $this->pdo = new PDO($dsn, $user, $password, parent::getOptions(self::$options, $options));
         } catch (Exception $e) {
+            if ($e->getCode() === 2002 && (bool)preg_match('/mysql:host=localhost;/i', $dsn)) {
+                ELog::error('Cannot connect to this host, it is recommended to try to change "localhost" to "127.0.0.1"');
+            }
             new EE($e, $e->getMessage(), 500, ELog::ALERT);
         }
     }
