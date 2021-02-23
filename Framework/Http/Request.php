@@ -254,6 +254,24 @@ class Request
     }
 
     /**
+     * @param string $default_lang
+     * @return string
+     */
+    public function getLanguage($default_lang = 'zh')
+    {
+        $accept_language = $this->S('HTTP_ACCEPT_LANGUAGE');
+        if (!$accept_language) {
+            return $default_lang;
+        }
+        list($current_lang) = explode(';', $accept_language);
+        $lang = substr($current_lang, 0, 5);
+        if (strpos($lang, '-')) {
+            list($lang) = explode('-', $lang);
+        }
+        return $lang;
+    }
+
+    /**
      * @return string ACCEPT TYPE
      */
     public function getAcceptTypes(): string
