@@ -22,7 +22,7 @@ class Validator
 
     /**
      * 标记全部Key是否有效
-     * @var bool 
+     * @var bool
      */
     public $hasInValid = false;
 
@@ -42,6 +42,11 @@ class Validator
      * @var array
      */
     private $safe_data = array();
+
+    /**
+     * @var array
+     */
+    private $data_key = array();
 
     /**
      * 标记当前key
@@ -125,6 +130,16 @@ class Validator
         return $this->isError('缺少参数：' . $name);
     }
 
+    /**
+     * 标记返回数据组的KEY
+     * @return $this
+     */
+    function keyNeeds()
+    {
+        $this->data_key[] = $this->n;
+        return $this;
+    }
+
 
     /**
      * @param $variable
@@ -163,6 +178,17 @@ class Validator
         }
         $this->data[$key] = $data[$key];
         return $this;
+    }
+
+    /**
+     * 获取标记需求的Key数据
+     * @see getData()
+     * @return array
+     */
+    function getNeedsDatas()
+    {
+        $keys = array_unique($this->data_key);
+        return $this->getData($keys);
     }
 
     /**
