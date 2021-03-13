@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace EP\Core;
 
+use EP\DB\Drivers\RedisDriver;
 use EP\Exception\EE;
 use EP\Exception\ELog;
 use EP\Exception\EPE;
@@ -31,7 +32,7 @@ use Throwable, Exception;
  * @property Cookies $cookie
  * @property Sessions $session
  * @property Validator $valid
- * @property \Redis $redis
+ * @property \Redis|RedisDriver $redis
  */
 class FrameBase
 {

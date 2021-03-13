@@ -481,7 +481,7 @@ class Device
             $other = array(
                 'QtWeb', 'MQQBrowser', 'QQBrowser', 'conkeror', 'SeaMonkey', 'Monyq', 'Minimo', 'NintendoBrowser',
                 'NetPositive', 'NetSurf', 'Polaris', 'Twitter', 'TizenBrowser', 'Ubuntu', 'UCWEB', 'WhatsApp', 'Opera',
-                'MiuiBrowser', 'baiduboxapp'
+                'MiuiBrowser', 'baiduboxapp', 'apps'
             );
             preg_match('/(' . implode('|', $other) . ')[\s\/]?([.\d]{0,8})?/i', $agent, $version);
 
