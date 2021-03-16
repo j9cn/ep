@@ -125,7 +125,7 @@ tpl;
         } else {
             if (Develop::createTpl($file)) {
                 include $file;
-            }else{
+            } else {
                 ELog::error("缺少模版文件：{$file}");
             }
         }
@@ -235,6 +235,16 @@ tpl;
             return $default;
         }
         return $map[$key];
+    }
+
+    /**
+     * @param string $key
+     * @param mixed $val
+     * @return bool
+     */
+    function equal($key, $val)
+    {
+        return $this->ed($key) === $val;
     }
 
     function getParams($key = '', $encrypt = false)
