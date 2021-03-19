@@ -115,6 +115,7 @@ class PDOSqlDriver implements SqlInterface
     public function getAll(string $table, string $fields, array $where = [], $order = 1, $group_by = 1, $limit = 0)
     {
         $data = $this->select($fields)->from($table);
+
         if ($where) {
             $data->where($where);
         }
@@ -130,8 +131,13 @@ class PDOSqlDriver implements SqlInterface
         if (0 !== $limit) {
             $data->limit($limit);
         }
-
-        return $data->stmt()->fetchAll(PDO::FETCH_ASSOC);
+        $result = [];
+        try {
+            $result = $data->stmt()->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $PDOException) {
+            ELog::error($PDOException->getMessage());
+        }
+        return $result;
     }
 
     /**
@@ -148,7 +154,8 @@ class PDOSqlDriver implements SqlInterface
      */
     public function add(
         string $table, array $data, bool $multi = false, array &$insert_data = array(), bool $openTA = false
-    ) {
+    )
+    {
         $this->SQLAssembler->add($table, $data, $multi);
         $this->sql = $this->SQLAssembler->getSQL();
         $this->params = $this->SQLAssembler->getParams();
@@ -224,7 +231,8 @@ class PDOSqlDriver implements SqlInterface
     public function find(
         string $table, string $fields, array $where, $order = 1, array &$page = array('p' => 1, 'limit' => 50),
         $group_by = 1
-    ) {
+    )
+    {
         if (!isset($page['result_count'])) {
             $total = $this->get($table, 'COUNT(*) as total', $where);
             $page['result_count'] = (int)$total['total'];
@@ -326,7 +334,8 @@ class PDOSqlDriver implements SqlInterface
         string $sql, int $fetch_style = PDO::FETCH_ASSOC,
         int $cursor_orientation = PDO::FETCH_ORI_NEXT,
         int $cursor_offset = 0
-    ) {
+    )
+    {
         try {
             return $this->pdo->query($sql)->fetch($fetch_style, $cursor_orientation, $cursor_offset);
         } catch (Exception $e) {
@@ -350,7 +359,8 @@ class PDOSqlDriver implements SqlInterface
      */
     public function fetchAll(
         string $sql, int $fetch_style = PDO::FETCH_ASSOC, $fetch_argument = null, array $ctor_args = array()
-    ) {
+    )
+    {
         try {
             $data = $this->pdo->query($sql);
             if (null !== $fetch_argument) {
@@ -640,7 +650,7 @@ class PDOSqlDriver implements SqlInterface
             unset($this->querySQL[$this->qid], $this->queryParams[$this->qid]);
             return $stmt;
         } catch (Exception $e) {
-            new EE($e);
+            ELog::error($e->getMessage());
         }
         return false;
     }

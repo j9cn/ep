@@ -11,11 +11,9 @@ namespace EP\MVC;
 
 
 use EP\Core\{
-    Develop, FrameBase, Helper, Loader, Router
+    Develop, FrameBase, Helper, Router
 };
-use EP\Exception\EE;
 use EP\Exception\ELog;
-use function Sodium\add;
 use Throwable;
 
 class View extends FrameBase
@@ -245,6 +243,16 @@ tpl;
     function equal($key, $val)
     {
         return $this->ed($key) === $val;
+    }
+
+    function eJson($key, $default = '')
+    {
+        $data = $this->ed($key, $default);
+        $result = json_encode($data, JSON_UNESCAPED_UNICODE);
+        if (JSON_ERROR_NONE === json_last_error()) {
+            return $result;
+        }
+        return $data;
     }
 
     function getParams($key = '', $encrypt = false)
