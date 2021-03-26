@@ -240,6 +240,13 @@ class Validator
         return $data;
     }
 
+    function appendCurrentTime($key)
+    {
+        $this->safe_data[$key] = TIME;
+        $this->data_key[] = $key;
+        return $this;
+    }
+
     /**
      * 验证一条
      *
