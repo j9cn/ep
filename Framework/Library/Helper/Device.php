@@ -401,8 +401,8 @@ class Device
             preg_match('/Maxthon\/([.\d]+)/', $agent, $version);
             $bn = "Maxthon";
 
-        } elseif (stripos($agent, "Edge") !== false) {
-            preg_match('/Edge\/([.\d]+)/', $agent, $version);
+        } elseif (stripos($agent, "Edg") !== false) {
+            preg_match('/Edge|Edg\/([.\d]+)/', $agent, $version);
             $bn = "Edge";
 
         } elseif (stripos($agent, "MSIE") !== false || (stripos($agent, 'Trident') !== false &&
