@@ -168,8 +168,10 @@ class Helper
                 //判断是否存在子数组
                 if ($tem) {
                     $value[$node_name] = $tem;
+                    $value['isParent'] = true;
                 } else {
                     $value[$node_name] = [];
+                    $value['isParent'] = false;
                 }
                 //$tem && $value[$node_name] = $tem;
                 $tree_data[] = $value;
