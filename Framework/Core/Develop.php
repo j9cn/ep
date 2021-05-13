@@ -189,6 +189,7 @@ tpl;
         $act = $_ENV['EP.console']['action'];
         $rand = uniqid();
         $incFile = get_included_files();
+        $countIncFile = count($incFile);
         $incFileList = '';
         foreach ($incFile as $i => $file) {
             $incFileList .= "<li>" . self::hiddenFileRealPath($file) . "</li>";
@@ -207,7 +208,7 @@ tpl;
 <pre>{$session}</pre>
 <h2>cookies:</h2>
 <pre>{$cookies}</pre>
-<h2>Inc. Files{count($incFile)}</h2>
+<h2>Inc. Files{$countIncFile}</h2>
 <ol>{$incFileList}</ol>
 </div>
 <script>
