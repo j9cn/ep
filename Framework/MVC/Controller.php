@@ -29,6 +29,30 @@ class Controller extends FrameBase
     }
 
     /**
+     * @param $key
+     * @return false|mixed
+     */
+    function get($key)
+    {
+        if (isset($_GET[$key])) {
+            return $_GET[$key];
+        }
+        return false;
+    }
+
+    /**
+     * @param $key
+     * @return false|mixed
+     */
+    function post($key)
+    {
+        if (isset($_GET[$key])) {
+            return $_GET[$key];
+        }
+        return false;
+    }
+
+    /**
      * 是否POST请求
      * @return bool
      */
