@@ -234,19 +234,20 @@ class Router implements RouterInterface
             $ori_controller = $ori_controller_action;
         }
 
-
         $controller_action_alias = $this->config->get('router', strtolower($controller_action));
-
         if ($controller_action_alias) {
             $controller_action = $controller_action_alias;
         }
         if (strpos($controller_action, '.')) {
             list($controller, $action) = explode('.', $controller_action);
+            $controller_alias = $this->config->get('router', strtolower($controller));
+            if($controller_alias){
+                $controller = $controller_alias;
+            }
         } else {
             $controller = $controller_action;
             $action = self::DEFAULT_ACTION;
         }
-
         $this->config->set('ori_router', array(
             'request' => $this->originUriRequest,
             'controller' => $ori_controller,
