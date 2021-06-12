@@ -370,4 +370,28 @@ class Helper
         return $page;
     }
 
+    /**
+     * 生成日期+时间+指定长度随机数
+     * @param int $randLen
+     * @return string
+     */
+    static function buildDateOrderNum($randLen = 3)
+    {
+        $randMax = 9;
+        if ($randLen > 1) {
+            $randMax = (int)str_pad((string)$randMax, (int)$randLen, '9');
+        }
+        $date = [
+            #年月日 8位
+            date('Ymd'),
+            # 当天第几分钟(4位 0001-1440)
+            str_pad((string)round((time() - strtotime(date('y-m-d'))) / 60, 0, PHP_ROUND_HALF_DOWN), 4, '0', STR_PAD_LEFT),
+            # 当前秒数 (2位 00-59)
+            str_pad(date('s'), 2, '0', STR_PAD_LEFT),
+            #随机N位
+            str_pad((string)mt_rand(1, $randMax), $randLen,'0', STR_PAD_LEFT)
+        ];
+        return implode('', $date);
+    }
+
 }
