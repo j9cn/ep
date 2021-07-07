@@ -71,6 +71,7 @@ class Device
 
     static function isWechat()
     {
+        self::guestInfo();
         return self::$browser_wechat;
     }
 
@@ -80,6 +81,7 @@ class Device
      */
     static function isMiniProgram()
     {
+        self::guestInfo();
         return self::$browser_miniProgram;
     }
 
