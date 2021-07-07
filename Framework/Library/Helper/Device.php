@@ -20,6 +20,7 @@ class Device
     private static $browser = '';
     private static $browser_version = '';
     private static $browser_miniProgram = false;
+    private static $browser_wechat = false;
     private static $browser_alias = array(
         'Firefox' => '火狐',
         'Chrome' => '谷歌',
@@ -66,6 +67,11 @@ class Device
             $base[] = $deviceCookieId;
         }
         return implode($separator, $base);
+    }
+
+    static function isWechat()
+    {
+        return self::$browser_wechat;
     }
 
     /**
@@ -393,6 +399,7 @@ class Device
         if (stripos($agent, 'MicroMessenger') !== false) {
             preg_match('/MicroMessenger\/([.\d]{0,5})/i', $agent, $version);
             $bn = 'Wechat';
+            self::$browser_wechat = true;
             if (stripos($agent, 'miniProgram') !== false) {
                 self::$browser_miniProgram = true;
             }
