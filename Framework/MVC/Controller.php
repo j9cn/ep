@@ -35,7 +35,7 @@ class Controller extends FrameBase
     function get($key)
     {
         if (isset($_GET[$key])) {
-            return $_GET[$key];
+            return trim($_GET[$key]);
         }
         return false;
     }
@@ -47,7 +47,7 @@ class Controller extends FrameBase
     function post($key)
     {
         if (isset($_POST[$key])) {
-            return $_POST[$key];
+            return trim($_POST[$key]);
         }
         return false;
     }
