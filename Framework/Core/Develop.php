@@ -155,6 +155,12 @@ use EP\MVC\View;
 class $ctr extends View
 {
     
+    function __construct()
+    {
+        parent::__construct();
+
+    }
+    
 }
 tpl;
 
