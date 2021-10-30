@@ -30,26 +30,30 @@ class Controller extends FrameBase
 
     /**
      * @param $key
+     * @param mixed $variable
      * @return false|mixed
      */
-    function get($key)
+    function get($key, &$variable = false)
     {
+        $variable = false;
         if (isset($_GET[$key])) {
-            return trim($_GET[$key]);
+            $variable = trim($_GET[$key]);
         }
-        return false;
+        return $variable;
     }
 
     /**
      * @param $key
+     * @param mixed $variable
      * @return false|mixed
      */
-    function post($key)
+    function post($key, &$variable = false)
     {
+        $variable = false;
         if (isset($_POST[$key])) {
-            return trim($_POST[$key]);
+            $variable = trim($_POST[$key]);
         }
-        return false;
+        return $variable;
     }
 
     /**
