@@ -345,7 +345,7 @@ class Validator
     function notEmpty($key_name = '', $error_text = '不能为空')
     {
         if ($this->valid) {
-            $this->valid = !empty($this->safe_data[$this->n]) || $this->safe_data[$this->n] == 0;
+            $this->valid = !empty($this->safe_data[$this->n]) || $this->safe_data[$this->n] === '0';
         }
         if (!$key_name) {
             $key_name = $this->n;
