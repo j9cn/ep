@@ -853,6 +853,18 @@ class Validator
     }
 
     /**
+     * 去除多余连贯空格
+     * @return $this
+     */
+    function trimOverSpace()
+    {
+        if ($this->valid && !empty($this->safe_data[$this->n])) {
+            $this->safe_data[$this->n] = preg_replace('/\s\s+/', ' ', $this->safe_data[$this->n]);
+        }
+        return $this;
+    }
+
+    /**
      * @param $error_text
      * @param string $default
      *
