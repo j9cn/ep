@@ -13,6 +13,7 @@ use EP\DB\Connector\{PgSQLConnector,SQLiteConnector,MySQLConnector};
 use EP\DB\Drivers\{MongoDriver,PDOSqlDriver,RedisDriver,CouchDriver,MemcacheDriver};
 use EP\DB\SQLAssembler\{PgSQLAssembler,SQLiteAssembler,MySQLAssembler};
 use EP\Exception\ELog;
+use PDO;
 
 
 class DBFactory
@@ -28,6 +29,9 @@ class DBFactory
         //配置的数据表前缀
         $prefix = !empty($params['prefix']) ? $params['prefix'] : '';
         $options = isset($params['options']) ? $params['options'] : array();
+        if (isset($params['charset'])) {
+            $options['charset'] = $params['charset'];
+        }
         switch (strtolower($link)) {
             case 'mysql' :
                 return new PDOSqlDriver(

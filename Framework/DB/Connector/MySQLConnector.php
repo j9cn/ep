@@ -54,6 +54,9 @@ class MySQLConnector extends BaseConnector
      */
     private function __construct($dsn, $user, $password, array $options = array())
     {
+        if (isset($options['charset'])) {
+            self::$options[PDO::MYSQL_ATTR_INIT_COMMAND] = "SET NAMES {$options['charset']}";
+        }
         try {
             $this->pdo = new PDO($dsn, $user, $password, parent::getOptions(self::$options, $options));
         } catch (Exception $e) {
