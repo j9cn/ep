@@ -830,9 +830,13 @@ class Validator
      * 强制转换int绝对值
      * @return $this
      */
-    function absInt()
+    function absInt($allowedZero = true)
     {
         $this->safe_data[$this->n] = (int)abs($this->safe_data[$this->n]);
+        if ( $this->valid && !$allowedZero) {
+            $this->valid = $this->safe_data[$this->n] !== 0;
+            return $this->isError('不允许为0');
+        }
         return $this;
     }
 
@@ -848,6 +852,18 @@ class Validator
                 '',
                 $this->safe_data[$this->n]
             );
+        }
+        return $this;
+    }
+
+    /**
+     * 去除多余连贯空格
+     * @return $this
+     */
+    function trimOverSpace()
+    {
+        if ($this->valid && !empty($this->safe_data[$this->n])) {
+            $this->safe_data[$this->n] = preg_replace('/\s\s+/', ' ', $this->safe_data[$this->n]);
         }
         return $this;
     }
