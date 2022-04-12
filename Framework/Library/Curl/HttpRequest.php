@@ -30,7 +30,7 @@ class HttpRequest
         $this->timeout = $time;
     }
 
-    function cookies( $cookies = array())
+    function cookies($cookies = array())
     {
         if (!empty($cookies)) {
             $this->cookies = '';
@@ -38,7 +38,7 @@ class HttpRequest
                 foreach ($cookies as $key => $val) {
                     $this->cookies .= "{$key}={$val}; ";
                 }
-            }else{
+            } else {
                 $this->cookies = $cookies;
             }
         }
@@ -98,7 +98,8 @@ class HttpRequest
      */
     static function multiHttp(
         array &$data, $url = '', $method = self::METHOD_GET, &$error_msg = array(), &$http_code = false
-    ) {
+    )
+    {
         return (new self())->multiRequest($data, $url, $method, $error_msg, $http_code);
     }
 
@@ -245,6 +246,13 @@ class HttpRequest
         }
         curl_close($ch);
         return $result;
+    }
+
+    function uploadFile(string $url, string $filePath, string $uploadName = 'file')
+    {
+        $data[$uploadName] = new \CURLFile($filePath);
+        $res = $this->request($url, $data, self::METHOD_POST);
+        return $res;
     }
 
     /**
