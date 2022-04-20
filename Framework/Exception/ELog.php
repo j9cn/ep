@@ -209,6 +209,7 @@ GET: %s
 POST: %s
 COOKIE: %s
 SESSION: %s
+SERVERS: %s
 -----------------------------------------------------------------------
 %s
 -----------------------------------------------------------------------
@@ -238,6 +239,13 @@ tpl;
                 $cli ? 'cli' : $req->getUrlReferrer()
             );
         }
+        $usk = ['HTTP_ACCEPT', 'HTTP_HOST', 'HTTP_PRAGMA', 'PATH', 'LD_LIBRARY_PATH', 'SERVER_SIGNATURE', 'SERVER_SOFTWARE', 'SERVER_NAME', 'SERVER_ADDR', 'SERVER_PORT', 'REMOTE_ADDR', 'DOCUMENT_ROOT', 'REQUEST_SCHEME', 'CONTEXT_PREFIX', 'CONTEXT_DOCUMENT_ROOT', 'SERVER_ADMIN', 'SCRIPT_FILENAME', 'REMOTE_PORT', 'GATEWAY_INTERFACE', 'SERVER_PROTOCOL', 'REQUEST_METHOD', 'REQUEST_URI', 'SCRIPT_NAME', 'PHP_SELF', 'REQUEST_TIME_FLOAT', 'REQUEST_TIME'];
+        $S = $_SERVER;
+        foreach ($usk as $key) {
+            if (isset($S[$key])) {
+                unset($S[$key]);
+            }
+        }
         return $content = sprintf($content_tpl,
             $cli ? 'cli' : $req->getClientIPAddress(),
             $method,
@@ -248,6 +256,7 @@ tpl;
             !empty($_POST) ? print_r($_POST, true) : '< NULL >',
             !empty($_COOKIE) ? print_r($_COOKIE, true) : '< NULL >',
             !empty($_SESSION) ? print_r($_SESSION, true) : '< NULL >',
+            !empty($S) ? print_r($S, true) : '< NULL >',
             !is_null($this->e) ? $this->e->getMessage() : $this->msg,
             !is_null($this->e) ? $this->e->getTraceAsString() : '< NULL >'
         );
