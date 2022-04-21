@@ -235,7 +235,7 @@ tpl;
             return $content = sprintf($content_tpl_404,
                 $cli ? 'cli' : $req->getClientIPAddress(),
                 $method,
-                $req->getHostInfo() . $_SERVER['PATH_INFO'],
+                $req->getHostInfo() . ($_SERVER['PATH_INFO'] ?? '$PATH_INFO$'),
                 $cli ? 'cli' : $req->getUrlReferrer()
             );
         }
