@@ -350,7 +350,7 @@ class Request
      */
     function isIphone()
     {
-        return stripos($this->S('HTTP_USER_AGENT'), 'ios') !== false;
+        return stripos($this->S('HTTP_USER_AGENT'), 'iPhone') !== false;
     }
 
     /**
