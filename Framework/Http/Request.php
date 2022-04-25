@@ -345,6 +345,51 @@ class Request
     }
 
     /**
+     * 是否苹果
+     * @return bool
+     */
+    function isIphone()
+    {
+        return stripos($this->S('HTTP_USER_AGENT'), 'ios') !== false;
+    }
+
+    /**
+     * 是否苹果系统
+     * @return bool
+     */
+    public function isIOS()
+    {
+        return $this->isIphone() || stripos($this->S('HTTP_USER_AGENT'), 'iPad') !== false;
+    }
+
+    /**
+     * 是否安卓系统
+     * @return bool
+     */
+    public function isAndroid()
+    {
+        return stripos($this->S('HTTP_USER_AGENT'), 'android') !== false;
+    }
+
+    /**
+     * 是否Windows系统
+     * @return bool
+     */
+    public function isWindows()
+    {
+        return stripos($this->S('HTTP_USER_AGENT'), 'windows nt') !== false;
+    }
+
+    /**
+     * 是否Mac系统
+     * @return bool
+     */
+    public function isMacOs()
+    {
+        return stripos($this->S('HTTP_USER_AGENT'), 'Macintosh') !== false;
+    }
+
+    /**
      * 获取请求类型
      * @return string
      */
