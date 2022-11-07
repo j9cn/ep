@@ -68,7 +68,7 @@ class UploadOSS
         if (!self::$oss) {
             ELog::ERROR('未初始化OSS,需先使用 UploadOSS::init()');
         }
-        $name = Helper::UUID();
+        $name = Helper::timeCodeId();
         if (is_file($file)) {
             $ext = pathinfo($file, PATHINFO_EXTENSION);
             if (null === $file_name) {
