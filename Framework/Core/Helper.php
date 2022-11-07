@@ -322,6 +322,14 @@ class Helper
         );
     }
 
+    /**
+     * 生成当前时间转36进制+2位随机36进制字母
+     * @return string
+     */
+    static function timeCodeId()
+    {
+        return base_convert(time(), 10, 36) . base_convert(mt_rand(100, 999), 10, 36);
+    }
 
     /**
      * 显示友好时间格式
