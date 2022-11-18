@@ -86,10 +86,14 @@ class Develop
 
                     $method_ptl = <<<ptl
 
+    /**
+     * @action $method
+     * @return void
+     * @author This method is automatically created by the EP framework script at $datetime
+     *                这个方法由EP框架脚本自动创建于 $datetime
+     */
     function {$method}()
     {
-        // This $method() method is automatically created by the EP framework script at $datetime
-        // 这个$method()方法由EP框架脚本自动创建于 $datetime
         
     }
     
