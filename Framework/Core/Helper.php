@@ -324,11 +324,16 @@ class Helper
 
     /**
      * 生成当前时间转36进制+2位随机36进制字母
+     * @param bool $salt
      * @return string
      */
-    static function timeCodeId()
+    static function timeCodeId($salt = true)
     {
-        return base_convert(time(), 10, 36) . base_convert(mt_rand(100, 999), 10, 36);
+        $saltStr = '';
+        if ($salt) {
+            $saltStr = base_convert(mt_rand(100, 999), 10, 36);
+        }
+        return base_convert(time(), 10, 36) . $saltStr;
     }
 
     /**
