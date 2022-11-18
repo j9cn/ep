@@ -257,7 +257,7 @@ class Controller extends FrameBase
     /**
      * 无需通过视图层直接输出JSON数据
      *
-     * @param int $status
+     * @param int|array $status
      * @param string $message
      * @param array $data
      * @param array $errors
@@ -270,15 +270,18 @@ class Controller extends FrameBase
             'data' => $data,
             'errors' => $errors
         ];
+        if (is_array($status)) {
+            $json_data = array_merge($json_data, $status);
+        }
         $content = json_encode($json_data, JSON_UNESCAPED_UNICODE);
         $this->delegate->getResponse()->setStatus($this->response->getHttpStatus())->setContentType('json')->displayOver($content);
     }
 
     /**
      * 配合前端autovalid.js使用，效果很好
+     * @param array $errors
      * @see json()
      *
-     * @param array $errors
      */
     protected function validErrors(array $errors = [])
     {
@@ -290,8 +293,8 @@ class Controller extends FrameBase
 
     /**
      * 用于JSON输出数据
-     * @see json()
      * @param array $data
+     * @see json()
      */
     protected function success(array $data = [])
     {
