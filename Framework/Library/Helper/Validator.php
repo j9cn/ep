@@ -133,10 +133,15 @@ class Validator
 
     /**
      * 标记返回数据组的KEY
+     * @param $as
      * @return $this
      */
-    function keyNeeds()
+    function keyNeeds($as = null)
     {
+        if ($as) {
+            $this->data[$as] = $this->data[$this->n];
+            $this->get($as);
+        }
         $this->data_key[] = $this->n;
         return $this;
     }
@@ -183,8 +188,8 @@ class Validator
 
     /**
      * 获取标记需求的Key数据
-     * @see getData()
      * @return array
+     * @see getData()
      */
     function getNeedsDatas()
     {
@@ -228,11 +233,11 @@ class Validator
 
     /**
      * 返回一个参数，并将key从安全数据中消耗
-     * @see Validator::getData()
-     *
      * @param string $key
      *
      * @return string
+     * @see Validator::getData()
+     *
      */
     function popData($key)
     {
@@ -371,12 +376,12 @@ class Validator
     }
 
     /**
-     * @see in_array()
-     *
      * @param array $haystack
      * @param string $error_text
      *
      * @return Validator
+     * @see in_array()
+     *
      */
     function in(array $haystack, $error_text = '不在指定数据范围内')
     {
@@ -523,11 +528,11 @@ class Validator
 
     /**
      * 简单验证动态密码|验证码
-     * @see date()
-     *
      * @param string $format
      *
      * @return Validator
+     * @see date()
+     *
      */
     function datePwd($format = 'md')
     {
@@ -596,11 +601,11 @@ class Validator
     }
 
     /**
-     * @see ctype_alnum()
-     *
      * @param string $error_text
      *
      * @return Validator
+     * @see ctype_alnum()
+     *
      */
     function typeAlnum($error_text = '只能是字母和数字')
     {
@@ -611,11 +616,11 @@ class Validator
     }
 
     /**
-     * @see ctype_digit()
-     *
      * @param string $error_text
      *
      * @return Validator
+     * @see ctype_digit()
+     *
      */
     function typeDigit($error_text = '只能是数字')
     {
@@ -834,7 +839,7 @@ class Validator
     function absInt($allowedZero = true)
     {
         $this->safe_data[$this->n] = (int)abs($this->safe_data[$this->n]);
-        if ( $this->valid && !$allowedZero) {
+        if ($this->valid && !$allowedZero) {
             $this->valid = $this->safe_data[$this->n] !== 0;
             return $this->isError('不允许为0');
         }

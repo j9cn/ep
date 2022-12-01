@@ -283,7 +283,7 @@ class SQLAssembler
      */
     function forUpdate()
     {
-        return " ";
+        return " FOR UPDATE";
     }
 
     /**
@@ -291,7 +291,7 @@ class SQLAssembler
      */
     function lockInShareMode()
     {
-        return " ";
+        return " LOCK IN SHARE MODE";
     }
 
     /**

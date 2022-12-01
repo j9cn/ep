@@ -446,6 +446,10 @@
 <script type="text/javascript">
     function WRITE(url,m) {
         if (confirm("\n" + m + "\n" + '确认要自动创建吗?' + "\n\n")) {
+            let desc = prompt('输入方法说明(留空不加说明):')
+            if (desc) {
+                url += `&remarks=${desc}`
+            }
             location.href = url;
         }
     }

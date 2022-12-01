@@ -80,6 +80,10 @@ class Develop
                 $_ENV['EP.autoAdd'] = true;
                 $_ENV['EP.autoAddMethodName'] = "{$controller}::{$method}";
                 if (isset($_GET['t']) && $_GET['t'] === '```WRITE```') {
+                    $remarks = '';
+                    if (!empty($_GET['remarks'])) {
+                        $remarks = '@remarks ' . $_GET['remarks'];
+                    }
                     $controller_file = PROJECT_REAL_PATH . $controller . '.php';
                     $datetime = date('Y.m.d H:i:s');
                     $old_content = trim(Loader::read($controller_file, true));
@@ -87,6 +91,7 @@ class Develop
                     $method_ptl = <<<ptl
 
     /**
+     * $remarks
      * @action $method
      * @return void
      * @author This method is automatically created by the EP framework script at $datetime
