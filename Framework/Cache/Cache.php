@@ -14,8 +14,11 @@ namespace EP\Cache;
 class Cache
 {
     const FILE_TYPE = 1;
+    const FILE_TYPE_STATIC = 11;
     const MEMCACHE_TYPE = 2;
+    const MEMCACHE_TYPE_STATIC = 21;
     const REDIS_TYPE = 3;
+    const REDIS_TYPE_STATIC = 31;
 
     /**
      * @var RedisCache|Memcache|FileCache
@@ -35,10 +38,12 @@ class Cache
                 switch ($cache_type) {
 
                     case self::MEMCACHE_TYPE:
+                    case self::MEMCACHE_TYPE_STATIC:
                         self::$instance = new Memcache($cache_config);
                         break;
 
                     case self::REDIS_TYPE:
+                    case self::REDIS_TYPE_STATIC:
                         self::$instance = new RedisCache($cache_config);
                         break;
 

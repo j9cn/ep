@@ -99,26 +99,27 @@ class FileCache implements CacheInterface
         if (!file_exists($cache_file)) {
             $this->init();
         }
-
-        file_put_contents($cache_file, $value, LOCK_EX);
+        $str = str_replace(PHP_EOL, '', $value);
+        $str = preg_replace('/>\s+</', '><', $str);
+        file_put_contents($cache_file, $str, LOCK_EX);
     }
 
     /**
      * 读入cache文件
-     * @TODO
-     *
      * @param string $key
      *
      * @return bool|mixed
      */
-    function get(string $key)
+    function get(string $key = '')
     {
         if (!is_file($this->cache_file)) {
             return false;
         }
         $cache = require "{$this->cache_file}";
         if (isset($cache['EX_TIME']) && ($cache['EX_TIME'] == 0 || $cache['EX_TIME'] > $_SERVER['REQUEST_TIME'])) {
-            return isset($cache['DATA']) ? $cache['DATA'] : false;
+            if (isset($cache['DATA'])) {
+                return $cache['DATA'];
+            }
         }
         return false;
     }

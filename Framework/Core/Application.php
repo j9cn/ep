@@ -46,12 +46,6 @@ class Application
     private $app_name;
 
     /**
-     * action 注释
-     * @var string
-     */
-    private $action_annotate;
-
-    /**
      * 输出缓冲状态
      * @var bool
      */
@@ -117,11 +111,13 @@ class Application
         $cached = [];
         if ($config_cache) {
             $cache = $this->initRequestCache($config_cache);
+            if (false !== $cache) {
+                $cached = $cache->getConfig();
+            }
         }
 
         if (false !== $cache && $cache->isValid()) {
-            $cached = $cache->getConfig();
-            if ($cached['type'] == Cache::FILE_TYPE) {
+            if ($cached['type'] === Cache::FILE_TYPE_STATIC) {
                 $response_content = $cache->getStatic();
             } else {
                 $response_content = $cache->get();
@@ -165,7 +161,7 @@ class Application
             }
 
             if ($cache) {
-                if (!empty($cached['type']) && $cached['type'] == Cache::FILE_TYPE) {
+                if (!empty($cached['type']) && $cached['type'] === Cache::FILE_TYPE_STATIC) {
                     $cache->setStatic($cache->getKey(), $response_content);
                 } else {
                     $cache->set('', $response_content);
@@ -405,7 +401,7 @@ class Application
             try {
                 Develop::createController();
             } catch (Exception $exception) {
-                new EN($exception);
+                new EN((array)$exception);
             }
             ELog::error($e->getMessage(), 404);
         }
@@ -511,7 +507,7 @@ class Application
 
         $cache_config = array_merge($default_cache_config, $request_cache_config['config'], $sys_cache_config);
 
-        if (1 == $cache_config['type']) {
+        if (Cache::FILE_TYPE == $cache_config['type'] || Cache::FILE_TYPE_STATIC == $cache_config['type']) {
             $cache_config['key_dot'] = DS;
         } else {
             $cache_config['key_dot'] = ':';
@@ -521,7 +517,11 @@ class Application
         if (!empty($cache_config['cache_params_key'])) {
             sort($cache_config['cache_params_key'], SORT_STRING);
             foreach ($cache_config['cache_params_key'] as $key) {
-                $params_key[$key] = "{$key}=" . $this->params[$key] ?? '-';
+                $param = '';
+                if (isset($this->params[$key])) {
+                    $param = $this->params[$key];
+                }
+                $params_key[$key] = "{$key}=" . ($param ?? '-');
             }
         }
         $cache_key = $sys_cache_config + $params_key;
