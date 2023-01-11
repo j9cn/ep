@@ -95,7 +95,7 @@ class PDOSqlDriver implements SqlInterface
      *
      * @return mixed
      */
-    public function get(string $table, string $fields, array $where)
+    public function get(string $table, string $fields = '*', array $where)
     {
         return $this->select($fields)->from($table)->where($where)->stmt()->fetch(PDO::FETCH_ASSOC);
     }
@@ -112,7 +112,7 @@ class PDOSqlDriver implements SqlInterface
      *
      * @return array
      */
-    public function getAll(string $table, string $fields, array $where = [], $order = 1, $group_by = 1, $limit = 0)
+    public function getAll(string $table, string $fields = '*', array $where = [], $order = 1, $group_by = 1, $limit = 0)
     {
         $data = $this->select($fields)->from($table);
 
