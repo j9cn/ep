@@ -17,7 +17,7 @@ use EP\Exception\{
     EE, ELog, EN
 };
 use EP\I\RouterInterface;
-use ReflectionMethod, ReflectionClass, Exception, Closure;
+use ReflectionMethod, ReflectionException, ReflectionClass, Exception, Closure;
 
 class Application
 {
@@ -61,7 +61,7 @@ class Application
     /**
      * 实例化Application
      *
-     * @param string $app_name
+     * @param string   $app_name
      * @param Delegate $delegate
      */
     function __construct(string $app_name, Delegate &$delegate)
@@ -75,8 +75,8 @@ class Application
      * 运行框架
      *
      * @param object|string $router
-     * @param array|string $args 指定参数
-     * @param bool $return_response_content 是否输出执行结果
+     * @param array|string  $args                    指定参数
+     * @param bool          $return_response_content 是否输出执行结果
      *
      * @return array|mixed|string
      */
@@ -107,9 +107,10 @@ class Application
             $this->delegate->getResponse()->basicAuth($config_basicAuth);
         }
         $config_cache = $this->config->get('cache', $ca_key);
+        $cacheStatus = $this->config->get('cache', '#CACHED#');
         $cache = false;
         $cached = [];
-        if ($config_cache) {
+        if ($cacheStatus && $config_cache) {
             $cache = $this->initRequestCache($config_cache);
             if (false !== $cache) {
                 $cached = $cache->getConfig();
@@ -257,15 +258,15 @@ class Application
      * 实例化内部类
      * <pre>
      * 判断类中是否包含静态成员变量app_delegate并赋值
-     * 主要用于实例化Cross\MVC\Module, Cross\MVC\View命名空间下的派生类
+     * 主要用于实例化EP\MVC\Module, EP\MVC\View,EP\MVC\Model 命名空间下的派生类
      * 不能实例化控制器, 实例化控制器请调用本类中的get()方法
      * </pre>
      *
      * @param string $class 类名或命名空间
-     * @param array $args
+     * @param array  $args
      *
      * @return object
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function instanceClass($class, $args = array())
     {
@@ -324,8 +325,8 @@ class Application
      * </pre>
      *
      * @param RouterInterface|string $router
-     * @param array $params
-     * @param bool $init_params
+     * @param array                  $params
+     * @param bool                   $init_params
      *
      * @return array
      */
@@ -380,7 +381,7 @@ class Application
      * 初始化控制器
      *
      * @param string $controller 控制器
-     * @param string $action 动作
+     * @param string $action     动作
      *
      * @return ReflectionClass
      */
@@ -439,7 +440,7 @@ class Application
      * 初始化参数
      *
      * @param array|string $url_params
-     * @param array $annotate_params
+     * @param array        $annotate_params
      */
     private function initParams($url_params, array $annotate_params = array())
     {
@@ -460,11 +461,9 @@ class Application
      * 初始化请求缓存
      * <pre>
      * request_cache_config 共接受3个参数
-     * 1 缓存开关
-     * 2 缓存配置数组
-     * 3 是否强制开启请求缓存(忽略HTTP请求类型检查)
-     * 请求类型验证优先级大于缓存开关
-     * 注册匿名函数cpCache可以更灵活的控制请求缓存
+     * 1 缓存开关 onCache
+     * 2 缓存配置数组 config
+     * 3 是否强制开启请求缓存(忽略HTTP请求类型检查) method : bool | request method
      * </pre>
      *
      * @param array $request_cache_config
@@ -550,7 +549,7 @@ class Application
      * 调用依赖控制器实例的匿名函数
      *
      * @param Closure $closure
-     * @param $controller
+     * @param         $controller
      */
     private function callReliesControllerClosure(Closure $closure, $controller)
     {

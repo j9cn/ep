@@ -35,5 +35,17 @@ return [
     'router' => array(
         'ab.bb' => 'abc.ddd'
     ),
-    'cache' => []
+    'cache' => [
+        '#CACHED#' => false, #缓存总开关
+        '*example' => [
+            'onCache' => false, # 缓存开关true|false
+            'method' => GET,  # bool|GET|POST|AJAX
+            'config' => [
+                'type' => 11, # see Cache:: * _TYPE
+                'expire_time' => 3600, # default 3600s
+                'ext' => '.cache', # fileCache ext default .cache
+                'cache_params_key' => ['lang'] # cached params
+            ]
+        ]
+    ]
 ];
