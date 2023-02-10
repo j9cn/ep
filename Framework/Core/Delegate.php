@@ -80,8 +80,8 @@ class Delegate
     /**
      * 初始化框架
      *
-     * @param string $app_name 要加载的app名称
-     * @param array $runtime_config 运行时指定的配置
+     * @param string $app_name       要加载的app名称
+     * @param array  $runtime_config 运行时指定的配置
      */
     private function __construct(string $app_name, array $runtime_config)
     {
@@ -98,8 +98,8 @@ class Delegate
     /**
      * 实例化框架
      *
-     * @param string $app_name app名称
-     * @param array $runtime_config 运行时加载的设置
+     * @param string $app_name       app名称
+     * @param array  $runtime_config 运行时加载的设置
      *
      * @return self
      */
@@ -115,9 +115,9 @@ class Delegate
     /**
      * 直接调用控制器类中的方法
      *
-     * @param string|array $controller "控制器.方法"
-     * @param string|array $args 参数
-     * @param bool $return_content 是输出还是直接返回结果
+     * @param string|array $controller     "控制器.方法"
+     * @param string|array $args           参数
+     * @param bool         $return_content 是输出还是直接返回结果
      *
      * @return array|mixed|string
      */
@@ -141,6 +141,29 @@ class Delegate
             throw new EE($exception);
         }
 
+    }
+
+    /**
+     *   desc:运行多级目录的URL
+     *   author:YB
+     *   date:15:18 2023/2/10
+     *
+     * @return void
+     * @throws EE
+     */
+    function mRun()
+    {
+        $controller = $this->router->getRouter()->getController();
+        if (strpos($controller, '@') > 0) {
+            $ct =  array_map(function ($i) {
+                return ucfirst($i);
+            }, explode('@', $controller));
+            $ct = implode('\\', $ct);
+            $action = $this->router->getAction();
+            $this->get(['controller' => $ct, 'action' => $action]);
+        } else {
+            $this->run();
+        }
     }
 
     /**
@@ -181,7 +204,7 @@ class Delegate
      * 控制器中调用$this->params来获取并处理参数
      * </pre>
      *
-     * @param int|bool $run_argc
+     * @param int|bool   $run_argc
      * @param array|bool $run_argv
      */
     public function cliRun($run_argc = false, $run_argv = false)
@@ -212,7 +235,7 @@ class Delegate
     /**
      * 注册运行时匿名函数
      *
-     * @param string $name
+     * @param string  $name
      * @param Closure $f
      *
      * @return $this
@@ -296,7 +319,7 @@ class Delegate
      * 初始化App配置
      *
      * @param string $app_name
-     * @param array $runtime_config
+     * @param array  $runtime_config
      *
      * @return Config
      */
@@ -345,12 +368,12 @@ class Delegate
             }
         }
         $app_init = [];
-        $app_init_file = APP_PATH_DIR  . $app_name . '.init.php';
+        $app_init_file = APP_PATH_DIR . $app_name . '.init.php';
         if (is_file($app_init_file)) {
             $app_init = Loader::read($app_init_file);
         }
 
-        return Config::load(APP_PATH_DIR  . 'init.php')->combine($app_init)->combine($runtime_config);
+        return Config::load(APP_PATH_DIR . 'init.php')->combine($app_init)->combine($runtime_config);
 
     }
 
