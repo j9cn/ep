@@ -20,8 +20,9 @@ class Controller extends FrameBase
 
     /**
      * 设置data
+     *
      * @param string $key
-     * @param $val
+     * @param        $val
      */
     function data(string $key, $val)
     {
@@ -29,8 +30,9 @@ class Controller extends FrameBase
     }
 
     /**
-     * @param $key
+     * @param       $key
      * @param mixed $variable
+     *
      * @return false|mixed
      */
     function get($key, &$variable = false)
@@ -43,8 +45,9 @@ class Controller extends FrameBase
     }
 
     /**
-     * @param $key
+     * @param       $key
      * @param mixed $variable
+     *
      * @return false|mixed
      */
     function post($key, &$variable = false)
@@ -75,10 +78,28 @@ class Controller extends FrameBase
     }
 
     /**
+     *  get ajax 请求, 不做数据安全检验
+     *
+     * @return bool
+     */
+    function isAjaxGet(): bool
+    {
+        return $this->isAjax(GET, false);
+    }
+
+    /**
+     * @return bool
+     */
+    function isAjaxPost(): bool
+    {
+        return $this->isAjax(POST, false);
+    }
+
+    /**
      * 是否AJAX请求
      *
      * @param string $method
-     * @param bool $check_params
+     * @param bool   $check_params
      *
      * @return bool
      */
@@ -174,8 +195,8 @@ class Controller extends FrameBase
     /**
      * 下载一个文件
      *
-     * @param $file
-     * @param int $buffer
+     * @param      $file
+     * @param int  $buffer
      * @param null $file_name
      */
     protected function sendDownloadFile($file, $buffer = 0, $file_name = null)
@@ -238,7 +259,7 @@ class Controller extends FrameBase
      * 使用视图控制器输出
      *
      * @param null $method
-     * @param int $http_response_status
+     * @param int  $http_response_status
      */
     protected function display($method = null, $http_response_status = 200)
     {
@@ -258,9 +279,9 @@ class Controller extends FrameBase
      * 无需通过视图层直接输出JSON数据
      *
      * @param int|array $status
-     * @param string $message
-     * @param array $data
-     * @param array $errors
+     * @param string    $message
+     * @param array     $data
+     * @param array     $errors
      */
     protected function json($status = 1, $message = 'ok', array $data = [], array $errors = [])
     {
@@ -279,7 +300,9 @@ class Controller extends FrameBase
 
     /**
      * 配合前端autovalid.js使用，效果很好
+     *
      * @param array $errors
+     *
      * @see json()
      *
      */
@@ -293,7 +316,9 @@ class Controller extends FrameBase
 
     /**
      * 用于JSON输出数据
+     *
      * @param array $data
+     *
      * @see json()
      */
     protected function success(array $data = [])

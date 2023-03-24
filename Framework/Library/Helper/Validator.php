@@ -106,7 +106,7 @@ class Validator
      * 提审数据
      *
      * @param string $name
-     * @param bool $allow_undeclared_key
+     * @param bool   $allow_undeclared_key
      *
      * @return $this
      */
@@ -133,7 +133,9 @@ class Validator
 
     /**
      * 标记返回数据组的KEY
+     *
      * @param $as
+     *
      * @return $this
      */
     function keyNeeds($as = null)
@@ -148,7 +150,7 @@ class Validator
 
 
     /**
-     * @param $variable
+     * @param                   $variable
      * @param null|string|array $call
      *
      * @return $this
@@ -233,6 +235,7 @@ class Validator
 
     /**
      * 返回一个参数，并将key从安全数据中消耗
+     *
      * @param string $key
      *
      * @return string
@@ -310,7 +313,9 @@ class Validator
 
     /**
      * 验证参数是否为JSON数据格式及将数据转换
+     *
      * @param bool $toArray
+     *
      * @return Validator
      */
     function jsonData($toArray = true)
@@ -376,7 +381,7 @@ class Validator
     }
 
     /**
-     * @param array $haystack
+     * @param array  $haystack
      * @param string $error_text
      *
      * @return Validator
@@ -506,7 +511,7 @@ class Validator
     /**
      * 密码强度组合,长度验证6位起
      *
-     * @param int $mode 0|1|2
+     * @param int    $mode 0|1|2
      * @param string $error_text
      *
      * @return Validator
@@ -528,6 +533,7 @@ class Validator
 
     /**
      * 简单验证动态密码|验证码
+     *
      * @param string $format
      *
      * @return Validator
@@ -545,7 +551,7 @@ class Validator
     /**
      * 检测两个数据是否一致
      *
-     * @param $key
+     * @param        $key
      * @param string $error_text
      *
      * @return Validator
@@ -562,8 +568,8 @@ class Validator
      * 检测最小字符串长度或 数字对比
      *
      * @param string|int|float $min
-     * @param bool $is_string //是否检测字符串
-     * @param string $error_text
+     * @param bool             $is_string //是否检测字符串
+     * @param string           $error_text
      *
      * @return Validator
      */
@@ -582,8 +588,8 @@ class Validator
     /**
      * 检测最大字符串长度或 数字对比
      *
-     * @param $max
-     * @param bool $is_string
+     * @param        $max
+     * @param bool   $is_string
      * @param string $error_text
      *
      * @return Validator
@@ -637,7 +643,7 @@ class Validator
      *  2. 可以有括号，特殊企业有“（中国）”，有括号情况下，括号中必须最少2位
      *  3. 后面必须多少位汉字结尾，可传参数，默认后面最少2位，（2+2）最少4位，为了兼容 如：支付宝，可以传参数$min_final = 1
      *
-     * @param int $final_len //后面最少N位
+     * @param int    $final_len //后面最少N位
      * @param string $error_text
      *
      * @return Validator
@@ -875,7 +881,7 @@ class Validator
     }
 
     /**
-     * @param $error_text
+     * @param        $error_text
      * @param string $default
      *
      * @return string
@@ -894,5 +900,20 @@ class Validator
             $this->safe_data[$this->n] = call_user_func($name, $this->safe_data[$this->n]);
         }
         return $this;
+    }
+
+    function devBuild()
+    {
+        $dataKey = empty($_POST) ? $_GET : $_POST;
+        $tem = '';
+        foreach ($dataKey as $key => $value) {
+            if (!$tem) {
+                $tem .= '$this->valid->get("' . $key . '")->toVariable($' . $key . ')' . "\n";
+            } else {
+                $tem .= '->get("' . $key . '")->toVariable($' . $key . ')' . "\n";
+            }
+        }
+        $tem = trim($tem)  . ';';
+        exit($tem);
     }
 }
